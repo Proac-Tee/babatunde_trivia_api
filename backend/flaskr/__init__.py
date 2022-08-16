@@ -220,20 +220,28 @@ def create_app(test_config=None):
         category_id = quiz_category["id"]
 
         try:
+            # Filter available questions by all category and new questions
             if category_id == 0:
                 questions = Question.query.filter(
                     Question.id.notin_(previous_questions)
                 ).all()
 
             else:
+                # Filter available questions by chosen category & new questions
                 questions = Question.query.filter(
                     Question.id.notin_(previous_questions),
                     Question.category == category_id,
                 ).all()
-                # randomize the question
-                question = random.choice(questions) if questions else None
 
-                return jsonify({"success": True, "question": question.format()})
+            # randomize the question
+            question = random.choice(questions) if questions else None
+
+            return jsonify(
+                {
+                    "success": True,
+                    "question": question.format(),
+                }
+            )
 
         except Exception:
             abort(404)

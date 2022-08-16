@@ -26,7 +26,7 @@ class QuestionView extends Component {
       type: "GET",
       success: (result) => {
         this.setState({
-          questions: result.questions,
+          questions: result.list_of_questions,
           totalQuestions: result.total_questions,
           categories: result.categories,
           currentCategory: result.current_category,
@@ -147,7 +147,7 @@ class QuestionView extends Component {
                     this.getByCategory(id);
                   }}
                 >
-                  {this.state.categories[id]}
+                  -{this.state.categories[id]}
                   <img
                     className="category"
                     alt={`${this.state.categories[id].toLowerCase()}`}
@@ -162,7 +162,7 @@ class QuestionView extends Component {
           <h2>Questions</h2>
           {this.state.questions &&
             this.state.questions.length &&
-            Object.keys(this.state.questions).map((q) => (
+            this.state.questions.map((q) => (
               <Question
                 key={q}
                 question={q.question}
