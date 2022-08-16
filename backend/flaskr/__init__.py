@@ -126,7 +126,7 @@ def create_app(test_config=None):
         answer = body.get("answer", None)
         category = body.get("category", None)
         difficulty = body.get("difficulty", None)
-        search = body.get("search", None)
+        search = body.get("searchTerm", None)
 
         # A POST endpoint to get questions based on a search term. Return any questions for whom the search term is a substring of the question.
         try:

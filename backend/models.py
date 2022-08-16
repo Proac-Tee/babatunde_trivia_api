@@ -3,8 +3,13 @@ from sqlalchemy import Column, String, Integer, create_engine
 from flask_sqlalchemy import SQLAlchemy
 import json
 
-database_name = "babatunde_trivia"
-database_path = f"postgresql://localhost:5432/{database_name}"
+from settings import DB_PATH
+
+# ----------------------------------------------------------------------------#
+# Database path gotten from environmental variables
+# ----------------------------------------------------------------------------#
+
+database_path = DB_PATH
 db = SQLAlchemy()
 
 """
@@ -22,7 +27,7 @@ def setup_db(app, database_path=database_path):
 
 
 """
-Question
+Models
 
 """
 

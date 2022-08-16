@@ -65,7 +65,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data["success"], False)
 
     def test_delete_question(self):
-        res = self.client().delete("questions/5")
+        res = self.client().delete("questions/4")
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data["success"], True)
@@ -95,7 +95,7 @@ class TriviaTestCase(unittest.TestCase):
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data["success"], True)
-        self.assertEqual(len(data["questions"]), 10)
+        self.assertEqual(len(data["questions"]), 2)
 
     def test_invalid_search(self):
         search = {
