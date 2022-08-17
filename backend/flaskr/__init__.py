@@ -184,9 +184,10 @@ def create_app(test_config=None):
     @app.route("/categories/<int:category_id>/questions")
     def category_question(category_id):
         try:
-            category_id = category_id + 1
+            c_id = category_id + 1
+
             # fetch the question of a category by their id
-            category = Category.query.filter(Category.id == category_id).one_or_none()
+            category = Category.query.filter(Category.id == c_id).one_or_none()
 
             if category is None:
                 abort(404)
@@ -217,41 +218,46 @@ def create_app(test_config=None):
     # This endpoint takes category and previous question parametersand return a random questions within the given category, if provided, and that is not one of the previous questions.
 
     @app.route("/quizzes", methods=["POST"])
-    def fetch_quizzes():
+    def get_quiz_question():
         # get the qestion category
         body = request.get_json()
-
-        quiz_category = body.get("quiz_category", None)
-        previous_questions = body.get("previous_questions", None)
-        category_id = quiz_category["id"]
-
         try:
+            previous_questions = body.get("previous_questions")
+
+            quiz_category = body.get("quiz_category")["id"]
+
+            if previous_questions is None:
+                abort(400)
+
+            questions = []
             # Filter available questions by all category and new questions
-            if category_id == 0:
+            if quiz_category == 0:
                 questions = Question.query.filter(
                     Question.id.notin_(previous_questions)
                 ).all()
-
             else:
-                # Filter available questions by chosen category & new questions
+                category = Category.query.get(quiz_category)
+                if category is None:
+                    abort(404)
                 questions = Question.query.filter(
                     Question.id.notin_(previous_questions),
-                    Question.category == category_id,
+                    Question.category == quiz_category,
                 ).all()
+            current_question = None
 
             # randomize the question
             if len(questions) > 0:
-                next_question = random.choice(questions).format()
-
+                index = random.randrange(0, len(questions))
+                current_question = questions[index].format()
             return jsonify(
                 {
                     "success": True,
-                    "question": next_question,
+                    "question": current_question,
+                    "total_questions": len(questions),
                 }
             )
-
         except Exception:
-            abort(404)
+            abort(400)
 
     ############# Error handlers #############
 
