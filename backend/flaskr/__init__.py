@@ -138,11 +138,17 @@ def create_app(test_config=None):
                 # Post the update in the front end
                 current_questions = paginate_questions(request, selection)
 
+                categories = Category.query.all()
+                current_category = {
+                    category.id: category.type for category in categories
+                }
+
                 return jsonify(
                     {
                         "success": True,
                         "questions": current_questions,
                         "total_questions": len(selection.all()),
+                        "current_category": current_category,
                     }
                 )
 
@@ -234,12 +240,13 @@ def create_app(test_config=None):
                 ).all()
 
             # randomize the question
-            question = random.choice(questions) if questions else None
+            if len(questions) > 0:
+                next_question = random.choice(questions).format()
 
             return jsonify(
                 {
                     "success": True,
-                    "question": question.format(),
+                    "question": next_question,
                 }
             )
 
