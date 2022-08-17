@@ -74,6 +74,9 @@ The `--reload` flag will detect file changes and restart the server automaticall
 2. **Installing project dependencies**
    This project uses NPM to manage software dependencies. NPM Relies on the package.json file located in the `frontend` directory of this repository. After cloning, open your terminal and run:
 
+3. **Notes**
+   The frontend app was updated to react-18. In react v18 react-switch has been replaced to routes. To ensure the frontend works correctly kindly upgrade your react version to version 18. If ran in the future and not backward compactible with the current react version. Downgrade the react version to version 18 or check for documentations to fix any deprecations.
+
 ```bash
 npm install
 ```
