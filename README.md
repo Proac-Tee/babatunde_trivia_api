@@ -4,8 +4,6 @@ The trivia app is a udacity fullstack website designed to create bonding experie
 
 ## About the Stack
 
-We started the full stack application for you. It is designed with some key functional areas:
-
 ---
 
 ### Backend
